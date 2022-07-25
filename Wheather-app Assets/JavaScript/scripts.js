@@ -122,9 +122,10 @@ function fetchWeatherForecast(city) {
   )
     .then((res) => res.json())
     .then((data) => {
-      let tempF = list.main.temp;
-      let windF = data.wind.speed;
-      let humidityF = data.main.humidity;
+      let timeF = data.list.dt_txt;
+      let tempF = data.list.main.temp;
+      let windF = data.list.wind.speed;
+      let humidityF = data.list.main.humidity;
       console.log(tempF);
     });
 }
