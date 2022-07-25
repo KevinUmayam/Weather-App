@@ -6,7 +6,13 @@ let locationT = document.querySelector(".locationMB");
 let tempT = document.querySelector("#temp-1");
 let windT = document.querySelector("#wind-1");
 let humT = document.querySelector("#hum-1");
+let uvT = document.querySelector("#uv-1");
 let todayEl = document.querySelector(".date-1");
+
+let tempFel = document.querySelector("#temp2-1");
+let windFel = document.querySelector("#wind2-1");
+let humFel = document.querySelector("#hum-1");
+let dateFel = document.querySelector("#dateF");
 // this is my api key
 var apiKey = "1a45efe26fcd22bc0f8b0c1730851d56";
 // city variable
@@ -26,6 +32,7 @@ function displayCurrentDay() {
   console.log(today);
   todayEl.innerText = today;
 }
+// https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 
 function fetchweather(city) {
   fetch(
@@ -46,6 +53,34 @@ function fetchweather(city) {
       windT.innerText = "Wind: " + wind + "MPH";
       humT.innerText = "Humidity: " + humidity + "%";
 
+      fetch(
+        ` https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&units=imperial&appid=${apiKey}`
+      )
+        .then((res) => res.json())
+        .then((uvD) => {
+          console.log(uvD);
+          uvT.innerText = "UV Index: " + uvD.current.uvi;
+
+          // for loop to create boxes (i= 0 , i > 5, i ++ )
+          for (let i = 0; i < 5; i++) {
+            var fDiv = document.createElement("div");
+            fDiv.setAttribute("class", "lowc2");
+
+            var ulF = document.createElement("ul");
+            ulF.setAttribute("class", "Ul2");
+            var litempF = document.createElement("li");
+            litempF.setAttribute("class", "lis2");
+            litempF.innerText = "Temp: " + temp + " °F";
+            //
+            var liwindF = document.createElement("li");
+            liwindF.setAttribute("class", "lis2");
+            liwindF.innerText = "Wind: " + wind + "MPH";
+            //
+            var lihumF = document.createElement("li");
+            lihumF.setAttribute("class", "lis2");
+            lihumF.innerText = "Humidity: " + humidity + "%";
+          }
+        });
       //do forloop here
       // document.querySelector(".locationMB").innerText = name;
       // document.querySelector(".temp-1").innerText = temp;
@@ -112,29 +147,24 @@ function displayPreviousSearches() {
 //   e.preventDefault();
 //   fetchweather(e.target.value);
 // });
-fetchWeatherForecast();
 function fetchWeatherForecast(city) {
   fetch(
     "https://api.openweathermap.org/data/2.5/forecast?q=" +
       city +
       "&units=imperial&appid=" +
       apiKey
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      let timeF = data.list.dt_txt;
-      let tempF = data.list.main.temp;
-      let windF = data.list.wind.speed;
-      let humidityF = data.list.main.humidity;
-      console.log(tempF);
-    });
+  );
+  // .then((res) => res.json())
+  // .then((data) => {
+  //   let timeF = data.list.dt_txt;
+  //   ``;
+  //   let tempF = data.list.main.temp;
+  //   let windF = data.list.wind.speed;
+  //   let humidityF = data.list.main.humidity;
+  //   console.log(tempF);
+  //   tempFel.innerText = "Temp: " + tempF + " °F";
+  //   windFel.innerText = "Wind: " + windF + "MPH";
+  //   humFel.innerText = "Humidity: " + humidityF + "%";
+  //   dateFel.innerText = timeF;
+  // });
 }
-//for loop to create boxes (i= 0 , i > 5, i ++ )
-// function displayForecast() {
-//   var bDiv = document.createElement("div");
-//   bDiv.setAttribute("class", currentCity);
-//   var Bul = document.createElement("ul");
-
-//   var liTag = document.createElement("li");
-//   var cityBtn = document.createElement("button");
-// }
