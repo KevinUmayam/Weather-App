@@ -111,6 +111,10 @@ input {
 .locationMB {
   text-transform: capitalize;
 }
+.bottomForecast {
+  text-transform: capitalize;
+  margin-bottom: 1em;
+}
 span {
   margin-left: 0.5em;
   margin-right: 0.5em;

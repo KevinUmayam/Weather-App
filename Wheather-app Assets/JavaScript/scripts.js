@@ -13,6 +13,9 @@ let tempFel = document.querySelector("#temp2-1");
 let windFel = document.querySelector("#wind2-1");
 let humFel = document.querySelector("#hum-1");
 let dateFel = document.querySelector("#dateF");
+//lower created container for forecast
+let containerF = document.querySelector("#lowerContainers");
+
 // this is my api key
 var apiKey = "1a45efe26fcd22bc0f8b0c1730851d56";
 // city variable
@@ -60,25 +63,50 @@ function fetchweather(city) {
         .then((uvD) => {
           console.log(uvD);
           uvT.innerText = "UV Index: " + uvD.current.uvi;
+          var forecastArray = uvD.daily;
 
-          // for loop to create boxes (i= 0 , i > 5, i ++ )
-          for (let i = 0; i < 5; i++) {
+          // for loop to create boxes
+          for (let i = 0; i < forecastArray.length; i++) {
+            let tempF = uvD.daily[i].temp.day;
+            console.log(tempF);
+            let windF = uvD.daily[i].wind_speed;
+            console.log(windF);
+            let humidityF = uvD.daily[i].humidity;
+            console.log(humidityF);
+            let unixsF = uvD.daily[i].dt;
+            console.log(unixsF);
+            let dateFC = new Date(unixsF * 1000);
+            console.log(dateFC);
+            // console.log(forecastArray);
+            //
             var fDiv = document.createElement("div");
             fDiv.setAttribute("class", "lowc2");
-
+            //
+            var dateF = document.createElement("h1");
+            dateF.setAttribute("class", "bottomForecast");
+            dateF.innerText = dateFC.toDateString();
+            //
             var ulF = document.createElement("ul");
             ulF.setAttribute("class", "Ul2");
+            //
             var litempF = document.createElement("li");
             litempF.setAttribute("class", "lis2");
-            litempF.innerText = "Temp: " + temp + " °F";
+            litempF.innerText = "Temp: " + tempF + " °F";
             //
             var liwindF = document.createElement("li");
             liwindF.setAttribute("class", "lis2");
-            liwindF.innerText = "Wind: " + wind + "MPH";
+            liwindF.innerText = "Wind: " + windF + "MPH";
             //
             var lihumF = document.createElement("li");
             lihumF.setAttribute("class", "lis2");
-            lihumF.innerText = "Humidity: " + humidity + "%";
+            lihumF.innerText = "Humidity: " + humidityF + "%";
+            //
+            ulF.appendChild(litempF);
+            ulF.appendChild(liwindF);
+            ulF.appendChild(lihumF);
+            fDiv.appendChild(dateF);
+            fDiv.appendChild(ulF);
+            containerF.appendChild(fDiv);
           }
         });
       //do forloop here
