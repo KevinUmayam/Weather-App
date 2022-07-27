@@ -102,11 +102,6 @@ input {
   border-radius: 20px;
   text-transform: capitalize;
 }
-@media (max-width: 745px) {
-  .topSclass {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  }
-}
 
 .locationMB {
   text-transform: capitalize;
@@ -181,4 +176,44 @@ h1 {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+}
+/* @media (max-width: 1128px) {
+  .topSclass {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+} */
+@media (max-width: 1134px) {
+  .topSclass {
+    display: flex;
+    flex-direction: column;
+  }
+  .lowc2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 5vh;
+    padding-right: 5vh;
+    margin-top: 1em;
+  }
+  .topContainer2 {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .row {
+    display: flex;
+    flex-direction: column;
+  }
 }

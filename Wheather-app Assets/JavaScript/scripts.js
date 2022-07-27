@@ -38,6 +38,7 @@ function displayCurrentDay() {
 // https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
 
 function fetchweather(city) {
+  console.log(city);
   fetch(
     "https://api.openweathermap.org/data/2.5/weather?q=" +
       city +
@@ -77,36 +78,49 @@ function fetchweather(city) {
             console.log(unixsF);
             let dateFC = new Date(unixsF * 1000);
             console.log(dateFC);
+            let iconF = uvD.daily[i].weather[0].icon;
+            console.log(iconF);
             // console.log(forecastArray);
             //
-            var fDiv = document.createElement("div");
-            fDiv.setAttribute("class", "lowc2");
-            //
-            var dateF = document.createElement("h1");
-            dateF.setAttribute("class", "bottomForecast");
-            dateF.innerText = dateFC.toDateString();
-            //
-            var ulF = document.createElement("ul");
-            ulF.setAttribute("class", "Ul2");
-            //
-            var litempF = document.createElement("li");
-            litempF.setAttribute("class", "lis2");
-            litempF.innerText = "Temp: " + tempF + " °F";
-            //
-            var liwindF = document.createElement("li");
-            liwindF.setAttribute("class", "lis2");
-            liwindF.innerText = "Wind: " + windF + "MPH";
-            //
-            var lihumF = document.createElement("li");
-            lihumF.setAttribute("class", "lis2");
-            lihumF.innerText = "Humidity: " + humidityF + "%";
-            //
-            ulF.appendChild(litempF);
-            ulF.appendChild(liwindF);
-            ulF.appendChild(lihumF);
-            fDiv.appendChild(dateF);
-            fDiv.appendChild(ulF);
-            containerF.appendChild(fDiv);
+            if (i < 5) {
+              var fDiv = document.createElement("div");
+              fDiv.setAttribute("class", "lowc2");
+              //
+              var dateF = document.createElement("h1");
+              dateF.setAttribute("class", "bottomForecast");
+              dateF.innerText = dateFC.toDateString();
+              //
+              var ulF = document.createElement("ul");
+              ulF.setAttribute("class", "Ul2");
+              //
+              var liiconF = document.createElement("img");
+              liiconF.setAttribute("class", "lis2");
+              liiconF.setAttribute(
+                "src",
+                "http://openweathermap.org/img/wn/" + iconF + ".png"
+              );
+
+              //
+              var litempF = document.createElement("li");
+              litempF.setAttribute("class", "lis2");
+              litempF.innerText = "Temp: " + tempF + " °F";
+              //
+              var liwindF = document.createElement("li");
+              liwindF.setAttribute("class", "lis2");
+              liwindF.innerText = "Wind: " + windF + "MPH";
+              //
+              var lihumF = document.createElement("li");
+              lihumF.setAttribute("class", "lis2");
+              lihumF.innerText = "Humidity: " + humidityF + "%";
+              //
+              ulF.appendChild(liiconF);
+              ulF.appendChild(litempF);
+              ulF.appendChild(liwindF);
+              ulF.appendChild(lihumF);
+              fDiv.appendChild(dateF);
+              fDiv.appendChild(ulF);
+              containerF.appendChild(fDiv);
+            }
           }
         });
       //do forloop here
@@ -118,15 +132,11 @@ function fetchweather(city) {
 }
 
 displayPreviousSearches();
-//event listener to for searches
+//event listener for searches
 searchBtn.addEventListener("click", function (e) {
   e.preventDefault();
   console.log(e);
   saveCity();
-
-  //below is the code to link button click to the fetch code.
-
-  // location.reload();
 });
 
 //save searches funcion
@@ -151,7 +161,7 @@ function saveCity() {
 //display previous searched as buttons function
 function displayPreviousSearches() {
   var cityNameBtns = JSON.parse(window.localStorage.getItem("cityNames")) || [];
-
+  fetchweather(cityNameBtns[cityNameBtns.length - 1]);
   for (let cities = cityNameBtns.length - 1; cities > 0; cities--) {
     let currentCity = cityNameBtns[cities];
     console.log(currentCity);
@@ -166,33 +176,22 @@ function displayPreviousSearches() {
     liTag.appendChild(cityBtn);
 
     ulTag.appendChild(liTag);
+    cityBtn.addEventListener("click", (e) => prevSearches(e));
   }
-  fetchweather(cityNameBtns[cityNameBtns.length - 1]);
 }
+
+function prevSearches(e) {
+  e.preventDefault();
+
+  console.log(e);
+
+  fetchweather(e.target.id);
+}
+
 // feature so that when you click on a button the info gets displayed.
-// let newcityButtons = querySelector(".cityButtons");
-// newcityButtons.addEventListener("click", function (e) {
-//   e.preventDefault();
-//   fetchweather(e.target.value);
-// });
-function fetchWeatherForecast(city) {
-  fetch(
-    "https://api.openweathermap.org/data/2.5/forecast?q=" +
-      city +
-      "&units=imperial&appid=" +
-      apiKey
-  );
-  // .then((res) => res.json())
-  // .then((data) => {
-  //   let timeF = data.list.dt_txt;
-  //   ``;
-  //   let tempF = data.list.main.temp;
-  //   let windF = data.list.wind.speed;
-  //   let humidityF = data.list.main.humidity;
-  //   console.log(tempF);
-  //   tempFel.innerText = "Temp: " + tempF + " °F";
-  //   windFel.innerText = "Wind: " + windF + "MPH";
-  //   humFel.innerText = "Humidity: " + humidityF + "%";
-  //   dateFel.innerText = timeF;
-  // });
-}
+let newcityButtons = document.querySelector(".cityButtons");
+newcityButtons.addEventListener("click", function (e) {
+  e.preventDefault();
+  saveCity();
+  fetchweather(e.target.value);
+});
