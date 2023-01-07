@@ -3,6 +3,7 @@ console.log(inputEl);
 const searchBtn = document.getElementById("searchB");
 let textInput;
 let locationT = document.querySelector(".locationMB");
+let iconT = document.querySelector(".icon");
 let tempT = document.querySelector("#temp-1");
 let windT = document.querySelector("#wind-1");
 let humT = document.querySelector("#hum-1");
@@ -51,11 +52,17 @@ function fetchweather(city) {
       let temp = data.main.temp;
       let wind = data.wind.speed;
       let humidity = data.main.humidity;
+      let icon = data.weather[0].icon;
+      console.log(icon);
       console.log(data);
       locationT.innerText = name;
       tempT.innerText = "Temp: " + temp + " °F";
       windT.innerText = "Wind: " + wind + "MPH";
       humT.innerText = "Humidity: " + humidity + "%";
+      iconT.setAttribute(
+        "src",
+        "http://openweathermap.org/img/wn/" + icon + ".png"
+      );
 
       fetch(
         ` https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&units=imperial&appid=${apiKey}`
@@ -123,11 +130,6 @@ function fetchweather(city) {
             }
           }
         });
-      //do forloop here
-      // document.querySelector(".locationMB").innerText = name;
-      // document.querySelector(".temp-1").innerText = temp;
-      // document.querySelector(".wind-1").innerText = wind;
-      // document.querySelector(".hum-1").innerText = humidity;
     });
 }
 
